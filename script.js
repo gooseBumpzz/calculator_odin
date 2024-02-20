@@ -1,28 +1,14 @@
-// function addArray (arr){
-//     let sum = 0;
-//     arr.forEach(element => {
-//         sum+= +element; // + means covert to int
-//     });
-//     return sum;
-// }
-// console.log(addArray([6,4,5]));
 const keyboard = document.getElementById("keyboard");
 const screenFormula = document.getElementById("screenFormula");
 const screenResult = document.getElementById("screenResult");
-const addOper = "+";
-const subOper = "-";
-const mulOper = "*";
-const divOper = "/";
-// let num1 = 0;
-// let num2 = 0;
-// let operator = "";
+
 
 function add (num1, num2){
     return screenResult.textContent = num1 + num2;
 };
 
 function subtract (num1, num2){
-    return screenResult.textContent =num1 - num2;
+    return screenResult.textContent = num1 - num2;
 };
 
 function multiply (num1, num2){
@@ -33,19 +19,26 @@ function divide(num1, num2){
     return screenResult.textContent =num1/num2;
 }
 
+//perform operation based on operator
 function operate (num1, num2, operator){
-    if (operator === addOper ){
+    if (operator == "+" ){
         return add(+num1, +num2);
     }
-    else if (operator = subOper){
-        return subtract (num1,num2)
+    else if (operator == "-"){
+        return subtract (+num1,+num2)
+    }
+    else if (operator == "x"){
+        return multiply (+num1,+num2)
+    }
+    else if (operator == "/"){
+        return divide (+num1,+num2)
     }
 }
 
 // building 4x4 grid
 const keys = ["7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3" ,"-", "0", "del", "=", "+"];
-const numPad =["7", "8", "9", "4", "5", "6", "1", "2", "3", "0"];
-const operPad = ["/", "x", "-", "del", "=", "+"];
+const numKeys =["7", "8", "9", "4", "5", "6", "1", "2", "3", "0"];
+const operatorKeys = ["/", "x", "-", "del", "=", "+"];
 function keyGrid (itemCount){
     for (let i = 0; i < itemCount; i++) {
         const keyItem = document.createElement('div');
@@ -74,19 +67,52 @@ for (let i = 0; i < keyItems.length; i++) {
         let formula = screenFormula.textContent += keyValue;
 
         //take two numbers and perform operation
-        if (keyValue != "+"){
+        // make a string out of clicked buttons
+        if (!operatorKeys.includes(keyValue)){
             num1 += keyValue;
+            tempArray.push(num1);
         }
+        // adds the first number to empty array of numbers
         if (keyValue == "+"){;
-            tempArray.push(num1);
+            //tempArray.push(num1);
             operator = "+";
-        
-
-            //working on subtraction! but only after u used sum
-        if (keyValue == "-") {
-            tempArray.push(num1);
-            operator = "-";
+            //when click "+" second time it calculates result same as "="
+            if (tempArray.length == 2){
+                result = operate(tempArray[0], tempArray[1], operator);
+                tempArray =[];
+                tempArray.push(result);
+            }
+            num1 = '';  
         }
+
+        else if (keyValue == "-"){;
+            //tempArray.push(num1);
+            operator = "-";
+            //when click "-" second time it calculates result same as "="
+            if (tempArray.length == 2){
+                result = operate(tempArray[0], tempArray[1], operator);
+                tempArray =[];
+                tempArray.push(result);
+            }
+            num1 = '';  
+        }
+
+        else if (keyValue == "x"){;
+            //tempArray.push(num1);
+            operator = "x";
+            //when click "x" second time it calculates result same as "="
+            if (tempArray.length == 2){
+                result = operate(tempArray[0], tempArray[1], operator);
+                tempArray =[];
+                tempArray.push(result);
+            }
+            num1 = '';  
+        }
+
+        else if (keyValue == "/"){;
+            //tempArray.push(num1);
+            operator = "/";
+            //when click "/" second time it calculates result same as "="
             if (tempArray.length == 2){
                 result = operate(tempArray[0], tempArray[1], operator);
                 tempArray =[];
@@ -96,17 +122,18 @@ for (let i = 0; i < keyItems.length; i++) {
         }
 
         if (keyValue == "=") {
-            num2 = num1.slice(0,-1);
-            tempArray.push(num2);
+            tempArray.push(num1);
+            // num2 = num1.slice(0,-1);
+            // tempArray.push(num2);
             result =operate(tempArray[0], tempArray[1], operator);
             tempArray =[];
             tempArray.push(result);
             num1 ="";
         } 
 
-        console.log("num1= "+num1);
-        console.log("operator = "+operator);
-        console.log("num2= "+num2); 
+        console.log("num1 is "+num1);
+        console.log("operator is "+operator);
+        console.log("num2 is "+num2); 
         console.log("temp array is "+tempArray);
 
         });    
@@ -143,3 +170,40 @@ selectEqual.style.backgroundColor = 'rgb(234, 183, 55)';
             
            
            // console.log(stripped);
+
+
+
+// // adds a number to empty array of numbers
+// if (keyValue == "+"){;
+//     tempArray.push(num1);
+//     operator = "+";
+    
+
+//     //working on subtraction! but only after u used sum
+//     if (keyValue == "-") {
+//         tempArray.push(num1);
+//         operator = "-";
+//     }
+//     // doesn't work NaN
+//     if (keyValue == "x") {
+//         tempArray.push(num1);
+//         operator = "*";
+//     }
+
+//     if (tempArray.length == 2){
+//         result = operate(tempArray[0], tempArray[1], operator);
+//         tempArray =[];
+//         tempArray.push(result);
+//     }
+//     num1 = '';  
+//     console.log(operator);
+// }
+
+// if (keyValue == "=") {
+//     num2 = num1.slice(0,-1);
+//     tempArray.push(num2);
+//     result =operate(tempArray[0], tempArray[1], operator);
+//     tempArray =[];
+//     tempArray.push(result);
+//     num1 ="";
+// } 
