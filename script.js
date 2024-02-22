@@ -2,7 +2,6 @@ const keyboard = document.getElementById("keyboard");
 const screenFormula = document.getElementById("screenFormula");
 const screenResult = document.getElementById("screenResult");
 
-
 function add (num1, num2){
     return screenResult.textContent = num1 + num2;
 };
@@ -56,6 +55,7 @@ const keyItems = document.getElementsByClassName("key-item");
 let num1 = "";
 let num2 = "";
 let operator = "";
+let currentOperator ="";
 let tempArray = [];
 let result = 0;
 for (let i = 0; i < keyItems.length; i++) {
@@ -72,13 +72,14 @@ for (let i = 0; i < keyItems.length; i++) {
             num1 += keyValue;
             tempArray.push(num1);
         }
-        // adds the first number to empty array of numbers
+        
+        // adds a number to tempArray
         if (keyValue == "+"){;
             //tempArray.push(num1);
             operator = "+";
             //when click "+" second time it calculates result same as "="
             if (tempArray.length == 2){
-                result = operate(tempArray[0], tempArray[1], operator);
+                result = operate(tempArray[tempArray.length-2], tempArray[tempArray.length-1], operator);
                 tempArray =[];
                 tempArray.push(result);
             }
@@ -88,11 +89,11 @@ for (let i = 0; i < keyItems.length; i++) {
         else if (keyValue == "-"){;
             //tempArray.push(num1);
             operator = "-";
-            //when click "-" second time it calculates result same as "="
+            //if i put if statemnet above operator this specific instance will work but "+" wont work
             if (tempArray.length == 2){
-                result = operate(tempArray[0], tempArray[1], operator);
+                result = operate(tempArray[tempArray.length-2], tempArray[tempArray.length-1], operator);
                 tempArray =[];
-                tempArray.push(result);
+                tempArray.push(result); 
             }
             num1 = '';  
         }
@@ -100,7 +101,6 @@ for (let i = 0; i < keyItems.length; i++) {
         else if (keyValue == "x"){;
             //tempArray.push(num1);
             operator = "x";
-            //when click "x" second time it calculates result same as "="
             if (tempArray.length == 2){
                 result = operate(tempArray[0], tempArray[1], operator);
                 tempArray =[];
@@ -112,7 +112,6 @@ for (let i = 0; i < keyItems.length; i++) {
         else if (keyValue == "/"){;
             //tempArray.push(num1);
             operator = "/";
-            //when click "/" second time it calculates result same as "="
             if (tempArray.length == 2){
                 result = operate(tempArray[0], tempArray[1], operator);
                 tempArray =[];
@@ -131,16 +130,19 @@ for (let i = 0; i < keyItems.length; i++) {
             num1 ="";
         } 
 
+        if (keyValue == "del"){
+            screenResult.textContent = "";
+            screenFormula.textContent = "";
+            tempArray =[];
+            num1 ="";
+        }
+
         console.log("num1 is "+num1);
         console.log("operator is "+operator);
         console.log("num2 is "+num2); 
         console.log("temp array is "+tempArray);
-
-        });    
-      
+        });         
 }
-
-
 
 // changing color of "=" button
 const selectEqual= document.getElementById('=');

@@ -26,6 +26,7 @@
 #screenResult {
     display: flex;
     justify-content: end;
+    font-size: 45px;
 }
 
 #keyboard {
